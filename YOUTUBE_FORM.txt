@@ -1,0 +1,61 @@
+========================================
+  Car Jam — YouTube Playables setup
+========================================
+
+LIVE DEMO (form માં આ link મૂકો):
+https://drpatel16.github.io/yt-CarJam/
+
+UPLOAD THIS ZIP (index.html is at the zip root):
+submit/CarJam-playable.zip
+
+Developer portal:
+https://developers.google.com/youtube/gaming/playables
+
+----------------------------------------
+FOLDER — copy this for every new game
+----------------------------------------
+
+GameName/
+  index.html                 playable entry
+  style.css                  relative path only
+  game.js                    game code
+  .nojekyll                  GitHub Pages, if you host a demo
+  YOUTUBE_FORM.txt           portal notes — do NOT put this in the zip
+  submit/GameName-playable.zip
+
+Zip root must be index.html, style.css, game.js.
+Do not zip the folder itself. YouTube loads index.html from the archive root.
+
+----------------------------------------
+PORTAL
+----------------------------------------
+
+Title: Car Jam
+Genre: Puzzle / Casual
+Description:
+Car Jam is a short HTML5 parking puzzle. Tap a car to drive it straight off the lot when its lane is clear. Clear every car to finish the level. 12 levels, touch and mouse, undo, hint, and restart. No download.
+
+----------------------------------------
+POLICY CHECK (certification)
+----------------------------------------
+
+[x] Playables SDK script before game.js
+[x] firstFrameReady on the first drawn frame, then gameReady when the menu is tappable
+[x] onPause / onResume — gameplay and audio stop, progress is saved
+[x] isAudioEnabled / onAudioEnabledChange — YouTube mute owns the sound
+[x] loadData awaited before any saveData
+[x] Inside Playables: cloud save only, no localStorage
+[x] sendScore uses the same cleared-level count stored in the save
+[x] Relative paths only. No ads, no shop, no login, no external links, no exit button
+[x] Works in portrait and landscape. Resize does not wipe the level
+[x] Last level says the lots are all clear
+[x] Files stay well under the 15 MB initial-bundle guidance
+
+----------------------------------------
+ALSO FILL (your details)
+----------------------------------------
+
+- Primary email
+- YouTube channel URL
+- YouTube Channel ID (Studio → Settings → Channel → Advanced)
+- Confirm you own rights to the game: Yes

@@ -1,0 +1,220 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0e1218;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  color: #f4f1ea;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: none;
+}
+
+#app {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(ellipse at 50% -20%, #3a465c 0%, transparent 55%),
+    linear-gradient(180deg, #1b2230 0%, #141820 40%, #10141c 100%);
+}
+
+#hud {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: max(12px, env(safe-area-inset-top)) 16px 8px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+#hud .stat strong {
+  display: inline-block;
+  min-width: 1.4ch;
+  margin-left: 4px;
+  color: #ffcc4d;
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+}
+
+#game {
+  flex: 1 1 auto;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  touch-action: none;
+  cursor: pointer;
+}
+
+#tools {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  padding: 8px 14px max(14px, env(safe-area-inset-bottom));
+  z-index: 2;
+}
+
+#tools button {
+  appearance: none;
+  border: 1px solid rgba(255, 204, 77, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f4f1ea;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 12px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+#tools button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+#tools button:not(:disabled):active {
+  transform: translateY(1px);
+  background: rgba(255, 204, 77, 0.16);
+}
+
+#overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8, 10, 16, 0.72);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+  z-index: 5;
+  padding: 20px;
+}
+
+#overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.panel {
+  text-align: center;
+  max-width: 320px;
+}
+
+.brand {
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #ffcc4d;
+  margin-bottom: 10px;
+}
+
+.panel h1 {
+  font-size: clamp(26px, 6vw, 34px);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+
+.panel #subtitle {
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(244, 241, 234, 0.82);
+  margin-bottom: 8px;
+}
+
+#stars {
+  font-size: 28px;
+  letter-spacing: 0.12em;
+  color: #ffcc4d;
+  margin: 8px 0 18px;
+}
+
+#stars .off {
+  opacity: 0.28;
+}
+
+#stars[hidden] {
+  display: none !important;
+}
+
+#startBtn {
+  appearance: none;
+  border: none;
+  margin-top: 16px;
+  background: linear-gradient(180deg, #ffe08a, #f0b429);
+  color: #2a1c08;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 13px 40px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #b8860b;
+}
+
+#startBtn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #b8860b;
+}
+
+#paused.banner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 204, 77, 0.35);
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+#paused[hidden] {
+  display: none !important;
+}
+
+@media (min-width: 481px) {
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #app {
+    height: min(100vh, 860px);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(255, 204, 77, 0.18),
+      0 24px 60px rgba(0, 0, 0, 0.5);
+  }
+}
