@@ -5,6 +5,18 @@
   const YT = typeof window.ytgame !== "undefined" ? window.ytgame : null;
   const IN_PLAYABLES = !!(YT && YT.IN_PLAYABLES_ENV);
 
+  // The SDK test suite embeds the game and records saveData/sendScore.
+  // IN_PLAYABLES_ENV is not always set there, so an embedded SDK also counts.
+  function youtubeHosted() {
+    if (IN_PLAYABLES) return true;
+    if (!(YT && YT.game && typeof YT.game.saveData === "function")) return false;
+    try {
+      return window.parent !== window;
+    } catch (err) {
+      return true;
+    }
+  }
+
   function ytCall(fn) {
     try {
       return fn && fn();
@@ -22,8 +34,19 @@
     ytCall(() => YT && YT.game && YT.game.gameReady());
   }
 
-  function sendScore(value) {
-    ytCall(() => YT && YT.engagement && YT.engagement.sendScore({ value }));
+  function asInt(value) {
+    const n = Math.trunc(Number(value));
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  async function sendScore(value) {
+    const score = asInt(value);
+    if (!(YT && YT.engagement && typeof YT.engagement.sendScore === "function")) return;
+    try {
+      await YT.engagement.sendScore({ value: score });
+    } catch (err) {
+      logWarning("[CarJam] sendScore failed");
+    }
   }
 
   function logWarning(msg) {
@@ -342,7 +365,7 @@
   }
 
   async function initSave() {
-    if (IN_PLAYABLES) {
+    if (youtubeHosted()) {
       const cloud = await loadCloudData();
       cloudLoaded = true;
       if (cloud && typeof cloud.next === "number") progress = sanitize(cloud);
@@ -361,7 +384,7 @@
 
   async function persist() {
     if (!cloudLoaded) return;
-    if (IN_PLAYABLES) await saveCloudData(progress);
+    if (youtubeHosted()) await saveCloudData(progress);
     else writeLocal(progress);
   }
 
@@ -1097,6 +1120,11 @@
     draw();
     await initSave();
     showMenu();
+    // These two checks stay grey until the calls actually happen.
+    // Report the saved level count (an integer, including 0) as soon as the menu is up.
+    if (youtubeHosted()) {
+      persist().then(() => sendScore(asInt(progress.next)));
+    }
 
     if (!gameReadySent) {
       gameReadySent = true;
